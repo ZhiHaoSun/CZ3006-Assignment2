@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<title>Fruit Purchase</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+	<div class="container">
+
+		<table class="table">
+			<tr> <td>
+			<center><h1>Welcome to Fruit Shop!</h1></center>
+			</td></tr>
+
+			<tr>
+			<td>
+				<form action = "order.php" id="orderForm" method = "post" >
+				<div class="row">
+			      <div class="form-group">
+			        <label for="username">Username: </label>
+			        <input type="text" id="username" name="username" required maxlength="20" class="form-control" />
+			      </div>
+
+			      <div class="form-group">
+			        <label for="apples">Apples (S$0.69 Each): </label><br/>
+			        <input onchange="onFruitChange(this.value)" type="text" id="apples" name="apples" value="0" required class="form-control"></input>
+			      </div>
+
+			      <div class="form-group">
+			        <label for="oranges">Oranges (S$0.59 Each): </label><br/>
+			        <input onchange="onFruitChange(this.value)" type="text" id="oranges" name="oranges" value="0" required class="form-control"></input>
+			      </div>
+
+			      <div class="form-group">
+			        <label for="bananas">Bananas (S$0.39 Each): </label><br/>
+			        <input onchange="onFruitChange(this.value)" type="text" id="bananas" name="bananas" required value="0" class="form-control"></input>
+			      </div>
+
+			      <div class="form-group">
+			        <label for="total">Your total price is: </label><br/>
+			        <input type="text" id="total" name="total" readonly class="form-control" value="0"></input>
+			      </div>
+
+			      <div class="form-group">
+			      	<label for="payment">Select your payment method: </label>
+			      	<select id="payment" class="form-control" name="payment">
+			      		<option value="Visa">Visa</option>
+			      		<option value="Master Card">Master Card</option>
+			      		<option value="Discover">Discover</option>
+			      	</select>
+			      </div>
+
+			      <input type="submit" name="formSubmit" value="Submit" class="btn btn-success" />
+				</form>
+			</td> </tr>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+
+		function changeTotal(){
+			var appleP = parseInt(document.getElementById("apples").value) * 0.69;
+
+			var orangeP = parseInt(document.getElementById("oranges").value) * 0.59;
+
+			var bananaP = parseInt(document.getElementById("bananas").value) * 0.39;
+
+			var total = (appleP + orangeP + bananaP);
+			total = total.toFixed(2);
+
+			document.getElementById("total").value = total;
+		}
+
+		function onFruitChange(input){
+			var isnum = /^\d+$/.test(input);
+
+			if(isnum) {
+				changeTotal();
+			} else {
+				document.getElementById("total").value = "Nan";
+				alert("Fruit input is not valid!");
+			}
+
+		}
+
+		document.getElementById("orderForm").addEventListener("submit" , function onOrderSubmit(e) {
+
+			var total = document.getElementById("total").value;
+
+			var isfloat = /^-?\d+(?:[.,]\d*?)?$/.test(total);
+
+			if(!isfloat) {
+				alert("Total price is invalid!");
+				e.preventDefault();
+
+				return false;
+			}
+		});
+	</script>
+	</body>
+</html>
